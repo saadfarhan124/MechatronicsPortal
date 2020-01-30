@@ -29,6 +29,7 @@ namespace MechatronicsPortal.Models
         public string alumni_survey_status { get; set; }
         public string alumni_employee_survey_status { get; set; }
         public string alumni_email { get; set; }
+        public string alumni_firsttime_loggedin { get; set; }
     
         public virtual ICollection<EmployeeInformation> EmployeeInformations { get; set; }
         public virtual ICollection<PersonalInformation> PersonalInformations { get; set; }

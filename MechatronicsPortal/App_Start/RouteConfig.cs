@@ -16,7 +16,7 @@ namespace MechatronicsPortal
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "ProgramManager", action = "ViewStudents", id = UrlParameter.Optional }
+                defaults: new { controller = "Alumni", action = "login", id = UrlParameter.Optional }
             );
         }
     }

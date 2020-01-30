@@ -1,6 +1,7 @@
 ﻿using MechatronicsPortal.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,9 +10,83 @@ using System.Web.Mvc;
 
 namespace MechatronicsPortal.Controllers
 {
-    public class HomeController : Controller
+    public class AlumniController : Controller
     {
         MechaAlumniEntities db = new MechaAlumniEntities();
+
+        public ActionResult login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult login(string regnumber, string password)
+        {
+            using (var db = Util.getContext())
+            {
+                try
+                {
+                    int regNumberInt = Convert.ToInt32(regnumber);
+                    if (db.AlumniUsersAuthenticates.Any(e => e.alumni_username == regNumberInt &&
+                 e.almuni_password.Equals(password)))
+                    {
+                        AlumniUsersAuthenticate alumniUsersAuthenticate = db.AlumniUsersAuthenticates.Where(e => e.alumni_username == regNumberInt &&
+                    e.almuni_password.Equals(password)).Single();
+                        Session["user"] = alumniUsersAuthenticate;
+                        if (alumniUsersAuthenticate.alumni_firsttime_loggedin.Equals("false"))
+                        {
+                            return RedirectToAction("forgotPassword", "Alumni", null);
+                        }
+                        else
+                        {
+                            return RedirectToAction("alumniSurvey");
+                        }
+                        
+                    }
+                    else
+                    {
+                        ViewBag.msg = "Invalid Credentials";
+                        return View();
+                    }
+                }
+                catch (FormatException e)
+                {
+                    ViewBag.msg = e.Message;
+                    return View();
+                }
+            }
+        }
+
+        public ActionResult forgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult forgotPassword(string newpassword, string oldpassword)
+        {
+            using(var db = Util.getContext())
+            {
+                AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
+                if (alumniUsersAuthenticate.almuni_password.Equals(oldpassword))
+                {
+                    AlumniUsersAuthenticate alumni = db.AlumniUsersAuthenticates
+                        .Where(e => e.alumni_username == alumniUsersAuthenticate.alumni_username).Single();
+
+                    alumni.almuni_password = newpassword;
+                    alumni.alumni_firsttime_loggedin = "true";
+
+                    db.SaveChanges();
+                    return RedirectToAction("alumniSurvey");
+                }
+                else
+                {
+                    ViewBag.msg = "Old password not valid";
+                    return View();
+                }
+            }
+        }
+
         public ActionResult PersonalInformation()
         {
             return View();
@@ -30,20 +105,20 @@ namespace MechatronicsPortal.Controllers
             pi.alumni_id = 1;
             db.PersonalInformations.Add(pi);
             db.SaveChanges();
-         
+
 
             return RedirectToAction("ProfessionalDetails");
         }
         public ActionResult ProfessionalDetails()
         {
-            
+
             List<ProfessionalDetail> professionalDetailList = db.ProfessionalDetails.ToList();
             return View(professionalDetailList);
         }
 
         [HttpPost]
         public ActionResult ProfessionalDetails(String jobtitle, String companyname, String department, String worklocation,
-            String worknumber, String email, String startdate, String supervisorname, String supervisoremail, 
+            String worknumber, String email, String startdate, String supervisorname, String supervisoremail,
             String supervisorcontact)
         {
             ProfessionalDetail pd = new ProfessionalDetail();
@@ -67,7 +142,7 @@ namespace MechatronicsPortal.Controllers
 
         public ActionResult EducationalDetails()
         {
-            
+
             return View();
         }
 
@@ -122,17 +197,39 @@ namespace MechatronicsPortal.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult saveSurveyToServer(String survey)
+        public ActionResult saveAlumniSurveyToServer(String survey)
         {
-            using(Stream stream = Util.GenerateStreamFromString(survey))
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
+
+            using (Stream stream = Util.GenerateStreamFromString(survey))
             {
                 byte[] buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                System.IO.File.WriteAllBytes("D:/foo.pdf", buffer);
+                try
+                {
+                    var folder = System.Web.HttpContext.Current.Server.MapPath("~/AlumniSurveyrs/" + alumniUsersAuthenticate.alumni_username);
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                        string path = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/AlumniSurveyrs/" + alumniUsersAuthenticate.alumni_username),
+                                                  Path.GetFileName(alumniUsersAuthenticate.alumni_name + ".pdf"));
+                        System.IO.File.WriteAllBytes(path, buffer);
+                    }
+                    else
+                    {
+                        string path = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/AlumniSurveyrs/" + 1512232),
+                                                   Path.GetFileName(alumniUsersAuthenticate.alumni_name + ".pdf"));
+                        System.IO.File.WriteAllBytes(path, buffer);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
-            return RedirectToAction("employeeInformation"); 
+            return RedirectToAction("employeeInformation");
         }
 
-      
+
     }
 }

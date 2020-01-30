@@ -16,6 +16,7 @@
           <Property Name="alumni_survey_status" Type="varchar" MaxLength="15" />
           <Property Name="alumni_employee_survey_status" Type="varchar" MaxLength="15" />
           <Property Name="alumni_email" Type="varchar" MaxLength="50" />
+          <Property Name="alumni_firsttime_loggedin" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="EducationalInformations">
           <Key>
@@ -161,6 +162,7 @@
           <Property Name="alumni_survey_status" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="alumni_employee_survey_status" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="alumni_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="alumni_firsttime_loggedin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EducationalInformation">
           <Key>
@@ -300,6 +302,7 @@
           <EntitySetMapping Name="AlumniUsersAuthenticates">
             <EntityTypeMapping TypeName="MechaAlumniModel.AlumniUsersAuthenticate">
               <MappingFragment StoreEntitySet="AlumniUsersAuthenticates">
+                <ScalarProperty Name="alumni_firsttime_loggedin" ColumnName="alumni_firsttime_loggedin" />
                 <ScalarProperty Name="alumni_email" ColumnName="alumni_email" />
                 <ScalarProperty Name="alumni_employee_survey_status" ColumnName="alumni_employee_survey_status" />
                 <ScalarProperty Name="alumni_survey_status" ColumnName="alumni_survey_status" />

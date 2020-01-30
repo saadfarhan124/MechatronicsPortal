@@ -61,7 +61,7 @@
                     {
                         type: "matrix",
                         name: "competence",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "Competence",
                         columns: options,
                         rows: [
@@ -79,7 +79,7 @@
                     }, {
                         type: "matrix",
                         name: "research",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "Research and lifelong learning",
                         columns: options,
                         rows: [
@@ -94,7 +94,7 @@
                     }, {
                         type: "matrix",
                         name: "research",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "Interpersonal, Management and Leadership Skills",
                         columns: options,
                         rows: [
@@ -120,7 +120,7 @@
                         title: "Please rate SZABIST as an educational institute on the following",
                         type: "matrix",
                         name: "rateSzabist",
-                        //isRequired: "true",
+                        isRequired: "true",
                         columns: options,
                         rows: [
                             {
@@ -144,7 +144,7 @@
                         type: "radiogroup",
                         name: "jobMarket",
                         title: "Has SZABIST curriculum and education equipped you for the challenges of the job market?",
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         choices: [
                             "Yes",
@@ -155,7 +155,7 @@
                         name: "support",
                         title: "As a member of the SZABIST Alumni Association, how can you provide support for the current students?",
                         hasOther: true,
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         choices: [
                             "Career Counseling",
@@ -168,7 +168,7 @@
                         name: "meansOfCommunication",
                         title: "Select your most preffered means of communication for receiving Alumni-related information",
                         hasOther: true,
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         choices: [
                             "Email",
@@ -180,7 +180,7 @@
                         type: "radiogroup",
                         name: "employed",
                         title: "Are you employed in the field of your SZABIST degree?",
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         choices: [
                             "Yes",
@@ -190,7 +190,7 @@
                         type: "radiogroup",
                         name: "reasonOfUnemployment",
                         title: "if not, why (Please choose the best answer from the below mentioned list)?",
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         visibleIf: "{employed} = 'No'",
                         choices: [
@@ -212,7 +212,7 @@
                         type: "checkbox",
                         name: "informationNewsletter",
                         hasOther: true,
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         choices: [
                             "Pictures",
@@ -251,7 +251,7 @@
             .raw()
                 .then(function (text) {
                     $.ajax({
-                        url: "@Url.Action("saveSurveyToServer", "Home")",
+                        url: "@Url.Action("saveAlumniSurveyToServer", "Alumni")",
                         type: 'post',
                         async: false,
                         data: {
@@ -280,7 +280,7 @@
     function redirectToEmployeeDetails() {
         //new { id = "__id__" }) ';
         //url.replace('__id__', id);
-    var url = '@Url.Action("employeeInformation", "Home", null)';
+    var url = '@Url.Action("employeeInformation", "Alumni", null)';
         window.location.href = url;
     }
 
