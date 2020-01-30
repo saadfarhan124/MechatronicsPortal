@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -123,8 +124,15 @@ namespace MechatronicsPortal.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult saveSurveyToServer(String survey)
         {
-            
+            using(Stream stream = Util.GenerateStreamFromString(survey))
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                System.IO.File.WriteAllBytes("D:/foo.pdf", buffer);
+            }
             return RedirectToAction("employeeInformation"); 
         }
+
+      
     }
 }

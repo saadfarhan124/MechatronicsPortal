@@ -254,13 +254,11 @@
                         url: "@Url.Action("saveSurveyToServer", "Home")",
                         type: 'post',
                         async: false,
-                        
-
                         data: {
                             survey: text
                         },
                         success: function (response) {
-
+                            redirectToEmployeeDetails()
                         },
                         error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); ShowMessage("??? ?? ?????? ??????? ????", "fail"); }
                     });
