@@ -1,0 +1,62 @@
+﻿@model List<MechatronicsPortal.Models.AlumniUsersAuthenticate>
+@{
+    ViewBag.Title = "ViewStudents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+@if (ViewBag.message != null)
+{
+    <script>
+
+        M.toast({ html: 'Email Sent!', classes: 'rounded', displayLength: 2000 })
+
+    </script>
+}
+<h2 class="text-center">View All Students</h2>
+<table class="responsive-table">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Student Survey Status</th>
+            <th>Employee Survey Status</th>
+            <th>Email Reminder</th>
+            <th>SMS Reminder</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.alumni_username</td>
+                <td>@student.alumni_name</td>
+                @if (student.alumni_survey_status.Equals("Not Filled"))
+                {
+                    <td style="background-color:#ff5252">@student.alumni_survey_status</td>
+                }
+                else
+                {
+                    <td style="background-color:#a7ffeb">@student.alumni_survey_status</td>
+
+                }
+
+                @if (student.alumni_employee_survey_status.Equals("Not Filled"))
+                {
+                    <td style="background-color:#ff5252">@student.alumni_employee_survey_status</td>
+                }
+                else
+                {
+                    <td style="background-color:#a7ffeb ">@student.alumni_employee_survey_status</td>
+
+                }
+
+
+                <td>@Html.ActionLink("Send Email", "SendEmail", "ProgramManager", new { email = student.alumni_email }, null)</td>
+
+                <td>@Html.ActionLink("Send Message", "", "Home", null)</td>
+            </tr>
+        }
+    </tbody>
+</table>

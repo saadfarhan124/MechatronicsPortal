@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Personal Information";
+}
+
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--Disable Back Button-->
+<script type="text/javascript">
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+</script>
+<div class="row">
+    <div class="container-fluid">
+        <h1 class="center-align">Alumni Form</h1>
+        <h4 class="center-align"><strong>Personal Information</strong></h4>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <form class="col s12" method="post">
+                    @*Input fields using material*@
+                    <div class="row">
+                        @*Full name*@
+                        <div class="input-field col s6">
+                            <input id="full_name" type="text" class="validate" name="fullname" required>
+                            <label for="full_name">Full Name</label>
+                        </div>
+                        @*Deoartment*@
+                        <div class="input-field col s6">
+                            <input id="department" type="text" class="validate" name="department" required>
+                            <label for="department">Department</label>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        @*Registration number*@
+                        <div class="input-field col s6">
+                            <input id="reg_number" type="number" class="validate" name="registrationNumber" required>
+                            <label for="reg_number">Reg #</label>
+                        </div>
+                        @*email*@
+                        <div class="input-field col s6">
+                            <input id="email" type="email" class="validate" name="email" required>
+                            <label for="email">Email </label>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        @*contact *@
+                        <div class="input-field col s6">
+                            <input id="contact" type="number" class="validate" name="contactNumber" required>
+                            <label for="contact">Contact # </label>
+                        </div>
+                        @*pec reg*@
+                        <div class="input-field col s6">
+                            <input id="pec_reg" type="number" class="validate" name="pecReg">
+                            <label for="pec_reg">PEC Registration #</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-lg-12 center-align">
+                            <button class="btn waves-effect waves-light " type="submit" name="action">
+                                Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

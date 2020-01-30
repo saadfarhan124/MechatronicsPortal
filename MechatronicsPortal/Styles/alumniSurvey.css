@@ -1,0 +1,86 @@
+﻿.info-para {
+    font-size: 16px;
+}
+
+ol#rating {
+    list-style-type: upper-alpha;
+    width: auto;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+    ol#rating li {
+        float: left;
+        width: 200px;
+        padding: 2px 0px;
+    }
+
+.panel-body {
+    background-color: #ececec !important;
+}
+
+#surveyContainer {
+    margin-top: 13px;
+}
+
+.panel-heading {
+    background-color: #4545ff !important;
+}
+
+    .panel-heading h3 {
+        color: white !important;
+    }
+
+.panel-body {
+    padding: 0px !important;
+}
+
+.mt-4, .my-4 {
+    margin-top: 0px !important;
+}
+
+label {
+    font-size: 1.8rem;
+    color: black;
+}
+
+.sv_qstn .radio label {
+    display: inline-flex !important;
+}
+
+.sv_qcbx .checkbox label {
+    display: inline-flex !important;
+}
+
+.progress {
+    height: 2rem;
+}
+
+.progress-bar {
+    background-color: #4545ff;
+}
+
+.sv_main.sv_main .progress {
+    width: 100%;
+}
+
+.h5, h5 {
+    font-size: 2rem;
+    padding-bottom: 5px;
+}
+
+.h4, h4 {
+    font-size: 18px;
+    padding: 14px;
+    font-weight: bold;
+}
+
+.sv_main.sv_main .table > tbody > tr > td {
+    max-width: 300px;
+}
+
+.btn-secondary {
+    color: black !important;
+    background-color: #ececec !important;
+}

@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewBag.Title = "Employee Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/survey.js"></script>
+<link rel="stylesheet" href="~/Styles/bootstrap.css">
+<link rel="stylesheet" href="~/Styles/alumniSurvey.css" />
+
+<h1 class="text-center">Szabist</h1>
+<h3 class="text-center"><strong>Executive Development Center SZABIST, Karachi</strong></h3>
+
+<div class="container">
+    <p class="info-para">
+        This feedback survey consists of four parts. In the first part, please provide a candid feedback, regarding
+        the students (the current students and the past students who might be working in your organization) of the
+        Mechatronics Engineering Dept, SZABIST. In the second part, please provide a feedback regarding the curriculum.
+        In third part please provide your feedback on Program Educational Objectives (PEOs). Final part of the survey
+        pertains to gauge resource requirement at your Organization. Thanks in advance for the time taken to fill in this
+        survey. Your feedback is very important for us to improve our curriculum and teaching methodology.
+    </p>
+    <br>
+
+    @*<p style="font-size:16px">Please checkmark the appropriate box by using the following scale</p>
+        <ol id="rating" type="A">
+            <li>Very Good</li>
+            <li>Good</li>
+            <li>Fair</li>
+            <li>Poor</li>
+            <li>Very Poor</li>
+        </ol>*@
+</div>
+<div id="employeeForm"></div>
+<script>
+    var options = [
+        {
+            value: 5,
+            text: "Strongly Agree"
+        }, {
+            value: 4,
+            text: "Agree"
+        }, {
+            value: 3,
+            text: "Neutral"
+        }, {
+            value: 2,
+            text: "Disagree"
+        }, {
+            value: 1,
+            text: "Strongly Disagree"
+        }
+    ]
+    var json = {
+        //"questionStartIndex": "A",
+        pages: [
+            {
+                title: "Program Educational Objectives",
+                questions: [
+                    {
+                        title: "Saad",
+                        type: "html",
+                        name: "info",
+                        html: " <p class=\"info-para\"><strong>Part A: </strong> The purpose is to obtain employers' input on the quality ofeducation SZABIST is providing and to assess the quality of the Mechatronics Engineering program</p>"
+                    },
+                    {
+                        type: "matrix",
+                        name: "peoOne",
+                        //isRequired: "true",
+                        title: "PEO 1",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "engineeringKnowledge",
+                                text: "Ability to apply fundamental engineering knowledge in their role"
+                            }, {
+                                value: "problemSolving",
+                                text: "Ability to analyze and solve emerging problems"
+                            }, {
+                                value: "abilityToUseTools",
+                                text: "Ability to use modern engineering tools necessary for engineering practice"
+                            }
+                        ]
+                    }, {
+                        type: "matrix",
+                        name: "peoTwo",
+                        //isRequired: "true",
+                        title: "PEO 2",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "proposeNovelIdeas",
+                                text: "Ability to propose novel ideas and solutions of emerging problems"
+                            }, {
+                                value: "initiative",
+                                text: "Ability to take initiative and drive for learning new thins"
+                            }
+                        ]
+                    }, {
+                        type: "matrix",
+                        name: "peoThree",
+                        //isRequired: "true",
+                        title: "PEO 3",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "decisionMaking",
+                                text: "Ability to lead team (responsible actions, decison making) "
+                            }, {
+                                value: "effectiveCommunication",
+                                text: "Ability to communicate effectively"
+                            },
+                            {
+                                value: "professionalEthics",
+                                text: "Understand professional and ethical responsibility"
+                            },
+                            {
+                                value: "understandPointOfView",
+                                text: "Understand other people and appreciate their point of view"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+
+                questions: [
+                    {
+                        type: "html",
+                        name: "info",
+                        html: "<p><strong>Part B: </strong>Please provide any information which you want to share with us for the improvement of both the learning of the students and the curriculum </p>"
+                    }, {
+                        type: "comment",
+                        name: "improvement",
+                        titleLocation: "hidden"
+                    }, {
+                        type: "html",
+                        name: "info",
+                        html: "<p><strong>Part C: Do you suggest any changes in the existing PEOs listed below</strong></p><ol><li>Be competent mechatronic engineers who are knowledgeable, skillful and able to solve emerging peroblems within their organization and society at large</li><li>Have inclination towards research and lifelong learning and be able to promote entrepreneurial ideas.</li><li>Be effective engineers with leadership qualitites and high morals and professional ethics</li></ol>"
+                    }, {
+                        type: "comment",
+                        name: "changes",
+                        titleLocation: "hidden"
+                    }, {
+                        type: "html",
+                        name: "info",
+                        html: "<p><strong>Part D: </strong> This part of the survey pertains to gauge resource equipment at your Organization, this will help us to improve your organization's experience with SZABIST </p>"
+                    }, {
+                        name: "hrNeeds",
+                        type: "text",
+                        title: "In which month does your organization finalize its annual human resource needs?",
+                        //isRequired: true
+                    }, {
+                        type: "radiogroup",
+                        name: "hireFreshGraduates",
+                        title: "How many fresh graduates are you planning to hire in 2019?",
+                        //isRequired: true,
+                        colCount: 2,
+                        hasOther: true,
+                        choices: [
+                            "1-5",
+                            "6-10",
+                            "11-15"
+                        ]
+                    }, {
+                        type: "multipletext",
+                        name: "topSkills",
+                        title: "Name top 3 skills / competencies required by your organization?",
+                        items: [
+                            {
+                                name: "firstSkill",
+                                title: "a. "
+                            }, {
+                                name: "secondSkill",
+                                title: "b."
+                            }, {
+                                name: "thirdSkill",
+                                title: "c."
+                            }
+                        ]
+                    }
+
+                ]
+            }, {
+
+                questions: [
+                    {
+                        type: "html",
+                        name: "info",
+                        html: "<h4><u>SZABIST Related Questions</ul></h4>"
+                    },
+                    {
+                        type: "comment",
+                        name: "onCampusActivity",
+                        title: "Which on-campus activities (other than recruitment) would your organization like to conduct at SZABIST?"
+                    }, {
+                        type: "rating",
+                        name: "rateOrganization",
+                        title: "Please rate your organization's experience with the EDC department?",
+                        minRateDescription: "Very Good",
+                        maxRateDescription: "Very Poor"
+                    }, {
+                        type: "comment",
+                        name: "suggestionsForImprovement",
+                        title: "Do you have any suggestion(s) for improving your organization's experience with SZABIST?"
+                    }
+                ]
+            }
+            //{
+            //    questions: [
+            //        {
+            //            type: "text",
+            //            name: "email",
+            //            title: "Thank you for taking our survey. Your survey is almost complete, please enter your email address in the box below if you wish to participate in our drawing, then press the 'Submit' button."
+            //        }
+            //    ]
+            //}
+        ]
+    };
+</script>
+
+<script>
+
+    //function to recive data
+    function sendDataToServer(survey) {
+        var resultAsString = JSON.stringify(survey.data);
+        alert(resultAsString); //send Ajax request to your web server.
+        redirectToEmployeeDetails();
+    }
+    //function to create survey
+    var survey = new Survey.Model(json);
+    Survey.StylesManager.applyTheme("bootstrap");
+    $("#employeeForm").Survey({
+        model: survey,
+        onComplete: sendDataToServer
+    });
+
+    //redirection
+    function redirectToEmployeeDetails() {
+        //new { id = "__id__" }) ';
+        //url.replace('__id__', id);
+     
+}
+</script>
+

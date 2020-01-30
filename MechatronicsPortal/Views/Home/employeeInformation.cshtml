@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "employeeInformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<div class="row">
+    <div class="container-fluid">
+        <h1 class="center-align">Alumni Form</h1>
+        <h4 class="center-align"><strong>Employee Information</strong></h4>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <form class="col s12" method="post">
+                    @*Input fields using material*@
+                    <div class="row">
+                        @*Company Name*@
+                        <div class="input-field col s6">
+                            <input id="company_name" type="text" class="validate" name="company_name" required>
+                            <label for="company_name">Company Name : </label>
+                        </div>
+                        @*Address*@
+                        <div class="input-field col s6">
+                            <input id="address" type="text" class="validate" name="address" required>
+                            <label for="address">Address : </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*Name*@
+                        <div class="input-field col s6">
+                            <input id="name" type="text" class="validate" name="name" required>
+                            <label for="name">Name : </label>
+                        </div>
+                        @*Designation*@
+                        <div class="input-field col s6">
+                            <input id="designation" type="text" class="validate" name="designation" required>
+                            <label for="designation">Designation :  </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*Industry / Sector *@
+                        <div class="input-field col s12">
+                            <input id="industry" type="text" class="validate" name="industry" required>
+                            <label for="industry">Industry / Sector : </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-lg-12 center-align">
+                            <button class="btn waves-effect waves-light " type="submit" name="action">
+                                Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

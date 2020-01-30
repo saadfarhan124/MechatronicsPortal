@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "ProfessionalDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<MechatronicsPortal.Models.ProfessionalDetail>
+<!-- Compiled and minified JavaScript -->
+<style>
+    .column-detail {
+        font-size: 16px;
+        color: #483b36;
+        font-weight: 100;
+    }
+    .column-head {
+        font-weight: 600;
+        font-size: 16px;
+        color: black;
+    }
+    .input-labels {
+        color: black !important;
+        font-size: 11px !important;
+    }
+</style>
+<script type="text/javascript">
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<div class="row">
+    <div class="container-fluid">
+        <h1 class="center-align">Alumni Form</h1>
+
+        <strong>Professional Details</strong>
+        @foreach (var proDetails in Model)
+        {
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>@proDetails.job_title</div>
+                    <div class="collapsible-body">
+                        <div class="row">
+                            <div class="col s6">
+                                <label class="column-head">Job Title : </label>
+                                <label class="column-detail">@proDetails.job_title</label>
+                            </div>
+                            <div class="col s6">
+                                <label class="column-head">Company Name : </label>
+                                <label class="column-detail">@proDetails.company_name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label class="column-head">Department : </label>
+                                <label class="column-detail">@proDetails.department</label>
+                            </div>
+                            <div class="col s6">
+                                <label class="column-head">Work Location / Address : </label>
+                                <label class="column-detail">@proDetails.work_location</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label class="column-head">Work/ Office # : </label>
+                                <label class="column-detail">@proDetails.work_contact</label>
+                            </div>
+                            <div class="col s6">
+                                <label class="column-head">Email : </label>
+                                <label class="column-detail">@proDetails.email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label class="column-head">Start Date : </label>
+                                <label class="column-detail">@proDetails.start_date</label>
+                            </div>
+                            <div class="col s6">
+                                <label class="column-head">Supervisor Name : </label>
+                                <label class="column-detail">@proDetails.supervisor_name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <label class="column-head">Supervisor Email ID : </label>
+                                <label class="column-detail">@proDetails.supervisor_email</label>
+                            </div>
+                            <div class="col s6">
+                                <label class="column-head">Supervisor Contact : </label>
+                                <label class="column-detail">@proDetails.supervisor_contact</label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        }
+
+        <br>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col s6">
+        <div class="center-align">
+            <a href="#professionalDetails" class="waves-effect waves-light btn  modal-trigger"><i class="material-icons left">add</i>Add More jobs</a>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="center-align">
+            <a href="@Url.Action("EducationalDetails","Home", null)" class="waves-effect waves-light btn  modal-trigger"><i class="material-icons left">send</i>Proceed</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="professionalDetails" class="modal modal-fixed-footer">
+    <form method="post">
+        <div class="modal-content">
+            <div class="container-fluid">
+                <h4 class="center-align">Add new Profeessional Details</h4>
+                @*Full name*@
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="jobtitle" type="text" class="validate" name="jobtitle"  required>
+                        <label class="input-labels" for="jobtitle">Job Title</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="companyname" type="text" class="validate" name="companyname" required>
+                        <label class="input-labels" for="companyname">Company Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="department" type="text" class="validate" name="department" required>
+                        <label class="input-labels" for="department">Department</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="worklocation" type="text" class="validate" name="worklocation" required>
+                        <label class="input-labels" for="worklocation">Work Location / Address</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="worknumber" type="number" class="validate" name="worknumber" required>
+                        <label class="input-labels" for="worknumber">Work/ Office #</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="email" type="text" class="validate" name="email" required>
+                        <label class="input-labels" for="email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="startdate" type="date" class="validate" name="startdate" required>
+                        <label class="input-labels" for="startdate">Start Date</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="supervisorname" type="text" class="validate" name="supervisorname" required>
+                        <label class="input-labels" for="supervisorname">Supervisor Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="supervisoremail" type="email" class="validate" name="supervisoremail" required>
+                        <label class="input-labels" for="supervisoremail">Supervisor Email ID</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="supervisorcontact" type="number" class="validate" name="supervisorcontact" data-length="11" required>
+                        <label class="input-labels" for="supervisorcontact">Supervisor Contact</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="center-align">
+                <button class="btn waves-effect waves-light " type="submit" name="action">
+                    Add Job
+                    <i class="material-icons right">add</i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.collapsible').collapsible();
+        $('.modal').modal();
+        $('input#supervisorcontact').characterCounter();
+    });
+</script>
+

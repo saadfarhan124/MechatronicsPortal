@@ -1,0 +1,308 @@
+﻿
+@{
+    ViewBag.Title = "Alumni Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/survey.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="https://surveyjs.azureedge.net/1.5.1/survey.pdf.js"></script>
+<link rel="stylesheet" href="~/Styles/bootstrap.css">
+<link rel="stylesheet" href="~/Styles/alumniSurvey.css" />
+
+<h1 class="text-center">Szabist</h1>
+<h3 class="text-center"><strong>Alumni Survey Form</strong></h3>
+<div class="container">
+    <p class="info-para">
+        The purpose of this survey is to assess the satisfaction level of alumni with the academic and administrative facilities provided by SZABIST. We seek your
+        help in completing this survey and the information provided will be kept confidential.
+    </p>
+    <br>
+    @*<p style="font-size:16px">Please checkmark the appropriate box by using the following scale</p>
+        <ol id="rating" type="A">
+            <li>Very Good</li>
+            <li>Good</li>
+            <li>Fair</li>
+            <li>Poor</li>
+            <li>Very Poor</li>
+        </ol>*@
+</div>
+
+<div id="alumniForm"></div>
+
+
+<script>
+    var options = [
+        {
+            value: 1,
+            text: "Very Good"
+        }, {
+            value: 2,
+            text: "Good"
+        }, {
+            value: 3,
+            text: "Fair"
+        }, {
+            value: 4,
+            text: "Poor"
+        }, {
+            value: 5,
+            text: "Very Poor"
+        }
+    ]
+    var json = {
+        "questionStartIndex": "A",
+        showProgressBar: "bottom",
+        pages: [
+            {
+                title: "1. Kindly rate yourself on the attainment of the following Program Educational Objectives (PEOs) after graduating from SZABIST",
+                questions: [
+                    {
+                        type: "matrix",
+                        name: "competence",
+                        //isRequired: "true",
+                        title: "Competence",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "technicalKnowledge",
+                                text: "Level of technical knowledge possessed by you in comparison to your fellows from other institutes"
+                            }, {
+                                value: "technicalSkills",
+                                text: "Level of technical skills possessed by you in comparison to your fellows from other institutes"
+                            }, {
+                                value: "overallCompetence",
+                                text: "Overall competence in comparison to your fellows from other institutes"
+                            }
+                        ]
+                    }, {
+                        type: "matrix",
+                        name: "research",
+                        //isRequired: "true",
+                        title: "Research and lifelong learning",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "carryResearch",
+                                text: "Ability to carry out research and implement novel solutions"
+                            }, {
+                                value: "implementResearch",
+                                text: "Ability to implement entrepreneurial ideas"
+                            }
+                        ]
+                    }, {
+                        type: "matrix",
+                        name: "research",
+                        //isRequired: "true",
+                        title: "Interpersonal, Management and Leadership Skills",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "teamPlayer",
+                                text: "Ability to work in teams              "
+                            }, {
+                                value: "effectiveLeaders",
+                                text: "Capability as effective leaders"
+                            },
+                            {
+                                value: "professionalEthics",
+                                text: "Ability to practice professional ethics"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+
+                questions: [
+                    {
+                        title: "Please rate SZABIST as an educational institute on the following",
+                        type: "matrix",
+                        name: "rateSzabist",
+                        //isRequired: "true",
+                        columns: options,
+                        rows: [
+                            {
+                                value: "infraStructure",
+                                text: "Infra Structure"
+                            }, {
+                                value: "faculty",
+                                text: "Faculty"
+                            }, {
+                                value: "qualityOfEducation",
+                                text: "Quality of Education"
+                            }, {
+                                value: "nationalLevel",
+                                text: "Repute at National Level"
+                            }, {
+                                value: "internationalLevel",
+                                text: "Repute at International Level"
+                            }
+                        ]
+                    }, {
+                        type: "radiogroup",
+                        name: "jobMarket",
+                        title: "Has SZABIST curriculum and education equipped you for the challenges of the job market?",
+                        //isRequired: true,
+                        colCount: 2,
+                        choices: [
+                            "Yes",
+                            "No"
+                        ]
+                    }, {
+                        type: "checkbox",
+                        name: "support",
+                        title: "As a member of the SZABIST Alumni Association, how can you provide support for the current students?",
+                        hasOther: true,
+                        //isRequired: true,
+                        colCount: 2,
+                        choices: [
+                            "Career Counseling",
+                            "Mentoring",
+                            "Fund raising",
+                            "Networking"
+                        ]
+                    }, {
+                        type: "checkbox",
+                        name: "meansOfCommunication",
+                        title: "Select your most preffered means of communication for receiving Alumni-related information",
+                        hasOther: true,
+                        //isRequired: true,
+                        colCount: 2,
+                        choices: [
+                            "Email",
+                            "EDC Website",
+                            "Phone Call",
+                            "Facebook"
+                        ]
+                    }, {
+                        type: "radiogroup",
+                        name: "employed",
+                        title: "Are you employed in the field of your SZABIST degree?",
+                        //isRequired: true,
+                        colCount: 2,
+                        choices: [
+                            "Yes",
+                            "No"
+                        ]
+                    }, {
+                        type: "radiogroup",
+                        name: "reasonOfUnemployment",
+                        title: "if not, why (Please choose the best answer from the below mentioned list)?",
+                        //isRequired: true,
+                        colCount: 2,
+                        visibleIf: "{employed} = 'No'",
+                        choices: [
+                            "I could not find a job",
+                            "The jobs in my field did not pay well",
+                            "I developed new career interest after leaving SZABIST",
+                            "The job in my field offered few opportunities for advancement",
+                            "I am full-time student",
+                            "I have my own business"
+                        ]
+                    }
+
+                ]
+            }, {
+
+                questions: [
+                    {
+                        title: "What kind of information you can contribute for Alumni Newsletter",
+                        type: "checkbox",
+                        name: "informationNewsletter",
+                        hasOther: true,
+                        //isRequired: true,
+                        colCount: 2,
+                        choices: [
+                            "Pictures",
+                            "Articles",
+                            "Achievements",
+                            "Updates"
+                        ]
+                    }, {
+                        type: "comment",
+                        name: "improvement",
+                        title: "How can EDC further improve its support in providing internships and job placements?"
+                    }
+                ]
+            }
+            //{
+            //    questions: [
+            //        {
+            //            type: "text",
+            //            name: "email",
+            //            title: "Thank you for taking our survey. Your survey is almost complete, please enter your email address in the box below if you wish to participate in our drawing, then press the 'Submit' button."
+            //        }
+            //    ]
+            //}
+        ]
+    };
+</script>
+
+<script>
+
+    //function to recive data
+
+    function saveSurveyToPdf(survey) {
+         var surveyPDF = new SurveyPDF.SurveyPDF(json);
+         surveyPDF.data = survey.data;
+            surveyPDF
+            .raw()
+                .then(function (text) {
+                    $.ajax({
+                        url: "@Url.Action("saveSurveyToServer", "Home")",
+                        type: 'post',
+                        async: false,
+                        
+
+                        data: {
+                            survey: text
+                        },
+                        success: function (response) {
+
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); ShowMessage("??? ?? ?????? ??????? ????", "fail"); }
+                    });
+                    @*var url = '@Url.Action("saveSurveyToServer", "Home", new { survey = -1 })';
+                    url = url.replace('-1', encodeURIComponent(text))
+                    window.location.href = url;*@
+            });
+    //surveyPDF.save(filename);
+}
+    //function to create survey
+    var survey = new Survey.Model(json);
+    Survey.StylesManager.applyTheme("bootstrap");
+    $("#alumniForm").Survey({
+        model: survey,
+        onComplete: saveSurveyToPdf
+    });
+
+    //redirection
+    function redirectToEmployeeDetails() {
+        //new { id = "__id__" }) ';
+        //url.replace('__id__', id);
+    var url = '@Url.Action("employeeInformation", "Home", null)';
+        window.location.href = url;
+    }
+
+</script>
+
+
+
+
+@*var xhr = new XMLHttpRequest();
+    xhr.open('GET', bloburl, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+        if (this.status == 200) {
+            console.log(this.response);
+            var url = '@Url.Action("saveSurveyToServer", "Home", new { survey =  -1, alumniID = 1, alumniName= "Saaad"})';
+            url = url.replace('-1', formData)
+            window.location.href = url;
+            //var myBlob = this.response;
+            //const fd = new FormData();
+            //fd.append("fileName", myBlob, "file.ext");
+    }
+    };
+    xhr.send();*@
