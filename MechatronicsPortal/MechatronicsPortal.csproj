@@ -369,6 +369,8 @@
     <Content Include="Views\ProgramManager\ViewStudents.cshtml" />
     <Content Include="Views\Alumni\login.cshtml" />
     <Content Include="Views\Alumni\forgotPassword.cshtml" />
+    <Content Include="Views\Alumni\thankYouPage.cshtml" />
+    <Content Include="Views\Alumni\alumniProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

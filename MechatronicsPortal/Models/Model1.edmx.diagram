@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="313e26403db24566ac6ff7e692aeab10" Name="Diagram1">
-        <EntityTypeShape EntityType="MechaAlumniModel.AlumniUsersAuthenticate" Width="2" PointX="0.75" PointY="7.125" IsExpanded="true" />
+      <Diagram DiagramId="bd269f366e664e9bbd80a0e153e76357" Name="Diagram1">
+        <EntityTypeShape EntityType="MechaAlumniModel.AlumniUsersAuthenticate" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MechaAlumniModel.EducationalInformation" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MechaAlumniModel.EmployeeInformation" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MechaAlumniModel.PersonalInformation" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />

@@ -5,8 +5,12 @@
 }
 
 <script src="~/Scripts/survey.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="https://surveyjs.azureedge.net/1.5.1/survey.pdf.js"></script>
 <link rel="stylesheet" href="~/Styles/bootstrap.css">
 <link rel="stylesheet" href="~/Styles/alumniSurvey.css" />
+
 
 <h1 class="text-center">Szabist</h1>
 <h3 class="text-center"><strong>Executive Development Center SZABIST, Karachi</strong></h3>
@@ -66,7 +70,7 @@
                     {
                         type: "matrix",
                         name: "peoOne",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "PEO 1",
                         columns: options,
                         rows: [
@@ -84,7 +88,7 @@
                     }, {
                         type: "matrix",
                         name: "peoTwo",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "PEO 2",
                         columns: options,
                         rows: [
@@ -99,7 +103,7 @@
                     }, {
                         type: "matrix",
                         name: "peoThree",
-                        //isRequired: "true",
+                        isRequired: "true",
                         title: "PEO 3",
                         columns: options,
                         rows: [
@@ -149,12 +153,12 @@
                         name: "hrNeeds",
                         type: "text",
                         title: "In which month does your organization finalize its annual human resource needs?",
-                        //isRequired: true
+                        isRequired: true
                     }, {
                         type: "radiogroup",
                         name: "hireFreshGraduates",
                         title: "How many fresh graduates are you planning to hire in 2019?",
-                        //isRequired: true,
+                        isRequired: true,
                         colCount: 2,
                         hasOther: true,
                         choices: [
@@ -166,6 +170,7 @@
                         type: "multipletext",
                         name: "topSkills",
                         title: "Name top 3 skills / competencies required by your organization?",
+                        isRequired: true,
                         items: [
                             {
                                 name: "firstSkill",
@@ -192,16 +197,19 @@
                     {
                         type: "comment",
                         name: "onCampusActivity",
+                        isRequired: true,
                         title: "Which on-campus activities (other than recruitment) would your organization like to conduct at SZABIST?"
                     }, {
                         type: "rating",
                         name: "rateOrganization",
+                        isRequired: true,
                         title: "Please rate your organization's experience with the EDC department?",
                         minRateDescription: "Very Good",
                         maxRateDescription: "Very Poor"
                     }, {
                         type: "comment",
                         name: "suggestionsForImprovement",
+                        isRequired: true,
                         title: "Do you have any suggestion(s) for improving your organization's experience with SZABIST?"
                     }
                 ]
@@ -219,13 +227,32 @@
     };
 </script>
 
+
 <script>
 
     //function to recive data
     function sendDataToServer(survey) {
-        var resultAsString = JSON.stringify(survey.data);
-        alert(resultAsString); //send Ajax request to your web server.
-        redirectToEmployeeDetails();
+       var surveyPDF = new SurveyPDF.SurveyPDF(json);
+         surveyPDF.data = survey.data;
+            surveyPDF
+            .raw()
+                .then(function (text) {
+                    $.ajax({
+                        url: "@Url.Action("saveEmployeeSurveyToServer", "Alumni")",
+                        type: 'post',
+                        async: false,
+                        data: {
+                            survey: text
+                        },
+                        success: function (response) {
+                            
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); ShowMessage("??? ?? ?????? ??????? ????", "fail"); }
+                    });
+                    @*var url = '@Url.Action("saveSurveyToServer", "Home", new { survey = -1 })';
+                    url = url.replace('-1', encodeURIComponent(text))
+                    window.location.href = url;*@
+            });
     }
     //function to create survey
     var survey = new Survey.Model(json);
@@ -236,10 +263,12 @@
     });
 
     //redirection
+   //redirection
     function redirectToEmployeeDetails() {
         //new { id = "__id__" }) ';
         //url.replace('__id__', id);
-     
-}
+    var url = '@Url.Action("thankYouPage", "Alumni", null)';
+        window.location.href = url;
+    }
 </script>
 

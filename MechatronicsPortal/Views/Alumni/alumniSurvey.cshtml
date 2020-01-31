@@ -14,6 +14,7 @@
 <h1 class="text-center">Szabist</h1>
 <h3 class="text-center"><strong>Alumni Survey Form</strong></h3>
 <div class="container">
+    <input type="hidden" value="@ViewBag.alumniID" id="alumniID" name="alumniID" />
     <p class="info-para">
         The purpose of this survey is to assess the satisfaction level of alumni with the academic and administrative facilities provided by SZABIST. We seek your
         help in completing this survey and the information provided will be kept confidential.
@@ -250,12 +251,14 @@
             surveyPDF
             .raw()
                 .then(function (text) {
+                    var alumniID = document.getElementById('alumniID').value;
                     $.ajax({
                         url: "@Url.Action("saveAlumniSurveyToServer", "Alumni")",
                         type: 'post',
                         async: false,
                         data: {
-                            survey: text
+                            survey: text,
+                            alumniID : alumniID
                         },
                         success: function (response) {
                             redirectToEmployeeDetails()
@@ -280,7 +283,7 @@
     function redirectToEmployeeDetails() {
         //new { id = "__id__" }) ';
         //url.replace('__id__', id);
-    var url = '@Url.Action("employeeInformation", "Alumni", null)';
+    var url = '@Url.Action("thankYouPage", "Alumni", null)';
         window.location.href = url;
     }
 

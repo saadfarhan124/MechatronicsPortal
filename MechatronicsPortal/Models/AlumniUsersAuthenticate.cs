@@ -22,7 +22,7 @@ namespace MechatronicsPortal.Models
             this.ProfessionalDetails = new HashSet<ProfessionalDetail>();
         }
     
-        public int alumni_id { get; set; }
+        public string alumni_id { get; set; }
         public Nullable<int> alumni_username { get; set; }
         public string almuni_password { get; set; }
         public string alumni_name { get; set; }

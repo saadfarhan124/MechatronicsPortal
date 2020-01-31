@@ -15,7 +15,7 @@ namespace MechatronicsPortal.Models
     public partial class EmployeeInformation
     {
         public int Id { get; set; }
-        public int alumni_id { get; set; }
+        public string alumni_id { get; set; }
         public string company_name { get; set; }
         public string address { get; set; }
         public string name { get; set; }

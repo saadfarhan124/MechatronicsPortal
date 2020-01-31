@@ -21,7 +21,7 @@ namespace MechatronicsPortal.Models
         public string contact_number { get; set; }
         public string pec_registration { get; set; }
         public int id { get; set; }
-        public int alumni_id { get; set; }
+        public string alumni_id { get; set; }
     
         public virtual AlumniUsersAuthenticate AlumniUsersAuthenticate { get; set; }
     }

@@ -12,7 +12,7 @@ namespace MechatronicsPortal.Controllers
 {
     public class ProgramManagerController : Controller
     {
-        
+      
         // GET: ProgramManager
         public ActionResult ViewStudents()
         {
@@ -20,6 +20,7 @@ namespace MechatronicsPortal.Controllers
             {
                 ViewBag.message = TempData["message"].ToString();
             }
+            
             return View(Util.getContext().AlumniUsersAuthenticates.ToList());
         }
 

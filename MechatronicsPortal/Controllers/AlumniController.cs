@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MechatronicsPortal.Controllers
@@ -39,9 +37,9 @@ namespace MechatronicsPortal.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("alumniSurvey");
+                            return RedirectToAction("PersonalInformation");
                         }
-                        
+
                     }
                     else
                     {
@@ -65,7 +63,7 @@ namespace MechatronicsPortal.Controllers
         [HttpPost]
         public ActionResult forgotPassword(string newpassword, string oldpassword)
         {
-            using(var db = Util.getContext())
+            using (var db = Util.getContext())
             {
                 AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
                 if (alumniUsersAuthenticate.almuni_password.Equals(oldpassword))
@@ -77,7 +75,7 @@ namespace MechatronicsPortal.Controllers
                     alumni.alumni_firsttime_loggedin = "true";
 
                     db.SaveChanges();
-                    return RedirectToAction("alumniSurvey");
+                    return RedirectToAction("PersonalInformation");
                 }
                 else
                 {
@@ -85,6 +83,12 @@ namespace MechatronicsPortal.Controllers
                     return View();
                 }
             }
+        }
+
+        public ActionResult alumniProfile()
+        {
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["User"] as AlumniUsersAuthenticate;
+            return View(alumniUsersAuthenticate);
         }
 
         public ActionResult PersonalInformation()
@@ -95,6 +99,8 @@ namespace MechatronicsPortal.Controllers
         public ActionResult PersonalInformation(string fullName, string department, int registrationNumber, string email, string contactNumber, string pecReg)
         {
             PersonalInformation pi = new PersonalInformation();
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
+
             //pi.alumni_id = 1;
             pi.full_name = fullName;
             pi.department = department;
@@ -102,7 +108,7 @@ namespace MechatronicsPortal.Controllers
             pi.email = email;
             pi.contact_number = contactNumber;
             pi.pec_registration = pecReg;
-            pi.alumni_id = 1;
+            pi.alumni_id = alumniUsersAuthenticate.alumni_id;
             db.PersonalInformations.Add(pi);
             db.SaveChanges();
 
@@ -111,8 +117,9 @@ namespace MechatronicsPortal.Controllers
         }
         public ActionResult ProfessionalDetails()
         {
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
 
-            List<ProfessionalDetail> professionalDetailList = db.ProfessionalDetails.ToList();
+            List<ProfessionalDetail> professionalDetailList = db.ProfessionalDetails.Where(e => e.alumni_id == alumniUsersAuthenticate.alumni_id).ToList();
             return View(professionalDetailList);
         }
 
@@ -121,6 +128,7 @@ namespace MechatronicsPortal.Controllers
             String worknumber, String email, String startdate, String supervisorname, String supervisoremail,
             String supervisorcontact)
         {
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
             ProfessionalDetail pd = new ProfessionalDetail();
             pd.job_title = jobtitle;
             pd.company_name = companyname;
@@ -132,7 +140,7 @@ namespace MechatronicsPortal.Controllers
             pd.supervisor_name = supervisorname;
             pd.supervisor_email = supervisoremail;
             pd.supervisor_contact = supervisorcontact;
-            pd.alumni_id = 1;
+            pd.alumni_id = alumniUsersAuthenticate.alumni_id;
             db.ProfessionalDetails.Add(pd);
             db.SaveChanges();
             List<ProfessionalDetail> professionalDetailList = db.ProfessionalDetails.ToList();
@@ -142,7 +150,6 @@ namespace MechatronicsPortal.Controllers
 
         public ActionResult EducationalDetails()
         {
-
             return View();
         }
 
@@ -150,34 +157,48 @@ namespace MechatronicsPortal.Controllers
         public ActionResult EducationalDetails(String latest_qualification, String degree_title, String institute, String year_of_completion,
             String majors)
         {
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
             EducationalInformation educationalInformation = new EducationalInformation();
             educationalInformation.latest_qualification = latest_qualification;
             educationalInformation.degree_title = degree_title;
             educationalInformation.institute = institute;
             educationalInformation.year_of_completion = year_of_completion;
             educationalInformation.majors = majors;
-            educationalInformation.alumni_id = 1;
+            educationalInformation.alumni_id = alumniUsersAuthenticate.alumni_id;
             db.EducationalInformations.Add(educationalInformation);
             db.SaveChanges();
-            return View();
+            if (alumniUsersAuthenticate.alumni_survey_status.Equals("Not Filled"))
+            {
+                return RedirectToAction("alumniSurvey");
+            }
+            else
+            {
+                return RedirectToAction("login");
+            }
         }
 
 
 
         public ActionResult alumniSurvey()
         {
+            AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
+            ViewBag.alumniID = alumniUsersAuthenticate.alumni_id;
             return View();
         }
 
 
-        public ActionResult employeeInformation()
+        public ActionResult employeeInformation(string alumniID)
         {
+            TempData["alumniID"] = alumniID;
+            ViewBag.alumniID = alumniID;
             return View();
+
+
         }
 
         [HttpPost]
         public ActionResult employeeInformation(String company_name, String address, String name,
-            String designation, String industry)
+            String designation, String industry, string alumniID)
         {
             EmployeeInformation employeeInformation = new EmployeeInformation();
             employeeInformation.company_name = company_name;
@@ -185,7 +206,7 @@ namespace MechatronicsPortal.Controllers
             employeeInformation.name = name;
             employeeInformation.designation = designation;
             employeeInformation.industry = industry;
-            employeeInformation.alumni_id = 1;
+            employeeInformation.alumni_id = alumniID;
             db.EmployeeInformations.Add(employeeInformation);
             db.SaveChanges();
             return RedirectToAction("employeeSurvey");
@@ -197,9 +218,18 @@ namespace MechatronicsPortal.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult saveAlumniSurveyToServer(String survey)
+        public ActionResult saveAlumniSurveyToServer(String survey, string alumniID)
         {
             AlumniUsersAuthenticate alumniUsersAuthenticate = Session["user"] as AlumniUsersAuthenticate;
+            using (var db = Util.getContext())
+            {
+                AlumniUsersAuthenticate alumni = db.AlumniUsersAuthenticates
+                        .Where(e => e.alumni_username == alumniUsersAuthenticate.alumni_username).Single();
+                alumni.alumni_survey_status = "Filled";
+                db.SaveChanges();
+                ProfessionalDetail professionalDetail = db.ProfessionalDetails.Where(e => e.alumni_id == alumniID).ToList().Last();
+                Util.sendEmailToEmployeer(professionalDetail.supervisor_email, alumniID);
+            }
 
             using (Stream stream = Util.GenerateStreamFromString(survey))
             {
@@ -230,6 +260,53 @@ namespace MechatronicsPortal.Controllers
             return RedirectToAction("employeeInformation");
         }
 
+        [HttpPost, ValidateInput(false)]
+        public ActionResult saveEmployeeSurveyToServer(String survey)
+        {
+            AlumniUsersAuthenticate alumni;
+            string alumniID = TempData["alumniID"].ToString();
+            using (var db = Util.getContext())
+            {
+                alumni = db.AlumniUsersAuthenticates
+                       .Where(e => e.alumni_id == alumniID).Single();
+                alumni.alumni_employee_survey_status = "Filled";
+                db.SaveChanges();
+            }
 
+            using (Stream stream = Util.GenerateStreamFromString(survey))
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                try
+                {
+                    var folder = System.Web.HttpContext.Current.Server.MapPath("~/EmployeeSurveys/" + alumni.alumni_username);
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                        string path = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/EmployeeSurveys/" + alumni.alumni_username),
+                                                  Path.GetFileName(alumni.alumni_name + ".pdf"));
+                        System.IO.File.WriteAllBytes(path, buffer);
+                    }
+                    else
+                    {
+                        string path = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/EmployeeSurveys/" + 1512232),
+                                                   Path.GetFileName(alumni.alumni_name + ".pdf"));
+                        System.IO.File.WriteAllBytes(path, buffer);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return RedirectToAction("employeeInformation");
+        }
+
+        public ActionResult thankYouPage()
+        {
+            return View();
+        }
     }
+
+
 }

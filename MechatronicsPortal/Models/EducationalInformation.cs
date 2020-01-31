@@ -20,7 +20,7 @@ namespace MechatronicsPortal.Models
         public string institute { get; set; }
         public string year_of_completion { get; set; }
         public string majors { get; set; }
-        public int alumni_id { get; set; }
+        public string alumni_id { get; set; }
     
         public virtual AlumniUsersAuthenticate AlumniUsersAuthenticate { get; set; }
     }
